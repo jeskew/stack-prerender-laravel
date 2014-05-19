@@ -1,0 +1,24 @@
+{
+    "name": "jeskew/stack-prerender-laravel",
+    "description": "",
+    "authors": [
+        {
+            "name": "Jonathan Eskew",
+            "email": "jonathan@jeskew.net"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.1.*",
+        "jeskew/stack-ph-prerender": "dev-master"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Jeskew\\StackPrerenderLaravel\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
