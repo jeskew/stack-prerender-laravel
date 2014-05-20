@@ -2,8 +2,8 @@
 
 use Illuminate\Support\ServiceProvider;
 
-class StackPrerenderLaravelServiceProvider extends ServiceProvider {
-
+class StackPrerenderLaravelServiceProvider extends ServiceProvider
+{
 	/**
 	 * Indicates if loading of the provider is deferred.
 	 *
@@ -28,7 +28,14 @@ class StackPrerenderLaravelServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//
+        $this->app->middleware('Jeskew\StackPhPrerender\Kernel', [
+            $this->filterNulls([
+                'prerenderToken' => $this->getEnvVar('PRERENDER_TOKEN'),
+                'blacklist' => $this->getEnvVar('PRERENDER_BLACKLIST'),
+                'whitelist' => $this->getEnvVar('PRERENDER_WHITELIST'),
+                'backendUrl' => $this->getEnvVar('PRERENDER_BACKEND_URL'),
+            ])
+        ]);
 	}
 
 	/**
@@ -40,5 +47,17 @@ class StackPrerenderLaravelServiceProvider extends ServiceProvider {
 	{
 		return array();
 	}
+
+    protected function filterNulls(array $data)
+    {
+        return array_filter($data, function ($datum) {
+            return $datum !== null;
+        });
+    }
+
+    protected function getEnvVar($key)
+    {
+        return isset($_ENV[$key]) ? $_ENV[$key] : null;
+    }
 
 }
